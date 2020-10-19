@@ -10,10 +10,18 @@ class JokeList extends Component {
   static defaultProps = { jokeNum: 10 };
   constructor(props) {
     super(props);
-    this.state = { jokes: [] };
+    this.state = {
+      jokes: JSON.parse(window.localStorage.getItem('jokes')) || '[]',
+    };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    if (this.state.jokes.length === 0) {
+      this.getJokes();
+    }
+  }
+
+  async getJokes() {
     let jokes = [];
     while (jokes.length < 10) {
       let res = await axios.get(JOKE_API_LINK, {
@@ -23,6 +31,7 @@ class JokeList extends Component {
       jokes.push({ id: uuidv4(), text: joke, votes: 0 });
     }
     this.setState({ jokes: jokes });
+    window.localStorage.setItem('jokes', JSON.stringify(jokes));
   }
 
   handleVote(id, delta) {
