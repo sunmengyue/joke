@@ -19,6 +19,7 @@
 .JokeList-title {
   font-family: 'Bangers', cursive;
   font-size: 4rem;
+  text-transform: uppercase;
   margin: 2rem;
   color: white;
   font-weight: 300;
